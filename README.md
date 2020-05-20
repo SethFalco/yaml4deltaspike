@@ -34,7 +34,7 @@ use or derive work from this source code!
 
 [matrix-community]: https://matrix.to/#/+elypia:matrix.org "Matrix Invite"
 [discord-guild]: https://discord.com/invite/hprGMaM "Discord Invite"
-[bintray-page]: https://bintray.com/elypia/yaml4deltaspike/core/_latestVersion "Bintray Latest Version"
+[bintray-page]: https://bintray.com/elypia/yaml4deltaspike/yaml4deltaspike/_latestVersion "Bintray Latest Version"
 [gitlab]: https://gitlab.com/Elypia/yaml4deltaspike/commits/master "Repository on GitLab"
 [elypia-donate]: https://elypia.org/donate "Donate to Elypia"
 [snakeyaml]: https://bitbucket.org/asomov/snakeyaml/src/master/ "SnakeYAML on BitBucket"
