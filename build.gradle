@@ -18,10 +18,17 @@ plugins {
     id "idea"
     id "java-library"
     id "maven"
+    id "maven-publish"
     id "jacoco"
+    id "com.jfrog.bintray" version "1.8.5"
 }
 
 ext {
+    repoUrl = "https://gitlab.com/Elypia/yaml4deltaspike"
+    gitUrl = "${repoUrl}.git"
+    issueUrl = "${repoUrl}/issues"
+    website = "https://elypia.org/"
+
     deltaSpikeVersion = "1.9.3"
 }
 
@@ -54,7 +61,6 @@ dependencies {
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
 /** Testing */
-
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
@@ -64,15 +70,105 @@ test {
     }
 }
 
-/** Coverage **/
+/** Code Coverage */
+jacocoTestReport {
+    reports {
+        html.enabled = true
+        xml.enabled = false
+    }
+}
 
 jacoco {
     toolVersion = "0.8.5"
 }
 
-jacocoTestReport {
-    reports {
-        html.enabled = true
-        xml.enabled = false
+/** Upload to Bintray */
+
+jar {
+    manifest {
+        attributes "Implementation-Title": this.name + project.path.replace(':', '-'),
+                   "Implementation-Version": version
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    archiveClassifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+
+    javadoc {
+        options {
+            links += [
+                    "https://docs.oracle.com/en/java/javase/11/docs/api/"
+            ]
+        }
+    }
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+bintray {
+    user = System.getenv("BINTRAY_USER")
+    key = System.getenv("BINTRAY_KEY")
+    publications = ['mavenJava']
+    publish = true
+    pkg {
+        repo = this.name
+        name = "yaml4deltaspike"
+        desc = project.description
+        userOrg = "elypia"
+        websiteUrl = website
+        licenses = ["Apache-2.0"]
+        vcsUrl = gitUrl
+        issueTrackerUrl = issueUrl
+        publicDownloadNumbers = true
+        version {
+            name = project.version
+            desc = project.description
+            vcsTag = project.version
+            released = new Date()
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId "yaml4deltaspike"
+            groupId project.group
+            version project.version
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = this.name
+                description = project.description
+                url = website
+                licenses {
+                    license {
+                        name = "Apache-2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "Seth"
+                        name = "Seth"
+                        email = "seth@elypia.org"
+                    }
+                }
+                scm {
+                    url = gitUrl
+                }
+            }
+        }
     }
 }

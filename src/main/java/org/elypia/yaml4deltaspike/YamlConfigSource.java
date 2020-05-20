@@ -20,18 +20,40 @@ import org.apache.deltaspike.core.impl.config.MapConfigSource;
 import org.yaml.snakeyaml.Yaml;
 
 /**
+ * You can create a configuration with a certain name and just
+ * extending this class, calling super() with the new configuration
+ * name you want.
+ *
+ * <code>
+ *     public class CustomYamlConfigSource extends YamlConfigSource {
+ *
+ *         public CustomYamlConfigSource() {
+ *             super("custom_application.yml");
+ *         }
+ *     }
+ * </code>
+ *
+ * This will seek out my_application.yml, instead of application.yml.
+ *
  * @author seth@elypia.org (Seth Falco)
  */
 public class YamlConfigSource extends MapConfigSource {
 
-    private static final String CONFIG_NAME = "application.yml";
+    private static final String DEFAULT_CONFIG_NAME = "application.yml";
+
+    private final String configName;
 
     public YamlConfigSource() {
-        super(MapUtils.flattenMapProperties(new Yaml().load(YamlConfigSource.class.getClassLoader().getResourceAsStream(CONFIG_NAME))));
+        this(DEFAULT_CONFIG_NAME);
+    }
+
+    public YamlConfigSource(String configName) {
+        super(MapUtils.flattenMapProperties(new Yaml().load(YamlConfigSource.class.getClassLoader().getResourceAsStream(configName))));
+        this.configName = configName;
     }
 
     @Override
     public String getConfigName() {
-        return CONFIG_NAME;
+        return configName;
     }
 }
