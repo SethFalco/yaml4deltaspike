@@ -50,7 +50,7 @@ application.messages.target=target0,target1
 ```
 
 #### Indexed
-The non-indexed mode will convert the array of nested objects to the property key
+The indexed mode will convert the array of nested objects to the property key
 but with an index added, similarly to that of an array.
 
 ```properties
