@@ -126,7 +126,7 @@ bintray {
         userOrg = "elypia"
         websiteUrl = website
         licenses = ["Apache-2.0"]
-        vcsUrl = gitUrl
+        vcsUrl = repoUrl
         issueTrackerUrl = issueUrl
         publicDownloadNumbers = true
         version {
