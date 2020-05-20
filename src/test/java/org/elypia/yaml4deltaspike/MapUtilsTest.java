@@ -1,3 +1,19 @@
+/*
+ * Copyright 2020-2020 Elypia CIC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.elypia.yaml4deltaspike;
 
 import org.junit.jupiter.api.Test;
@@ -6,6 +22,9 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author seth@elypia.org (Seth Falco)
+ */
 public class MapUtilsTest {
 
     /**
@@ -111,7 +130,7 @@ public class MapUtilsTest {
      *       target: four
      */
     @Test
-    public void testFlattenWithObjectArray() {
+    public void testFlattenWithObjectArrayLists() {
         Map<String, Object> message1 = Map.of(
             "source", "one",
             "target", "two"
@@ -131,9 +150,51 @@ public class MapUtilsTest {
 
         Map<String, String> result = MapUtils.flattenMapProperties(map);
 
-        assertAll("Assert that we can handle lists of maps.",
+        assertAll("Assert that we can handle lists of maps with list items.",
+            () -> assertEquals(3, result.size()),
+            () -> assertEquals("How Does An App Get This Awesome", result.get("application.name")),
+            () -> assertEquals("one,three", result.get("application.messages.source")),
+            () -> assertEquals("two,four", result.get("application.messages.target"))
+        );
+    }
+
+    /**
+     * application:
+     *   name: How Does An App Get This Awesome
+     *   messages:
+     *     - source: one
+     *       target: two
+     *     - source: three
+     *       target: four
+     */
+    @Test
+    public void testFlattenWithObjectArrayIndexed() {
+        Map<String, Object> message1 = Map.of(
+            "source", "one",
+            "target", "two"
+        );
+
+        Map<String, Object> message2 = Map.of(
+            "source", "three",
+            "target", "four"
+        );
+
+        Map<String, Object> application = Map.of(
+            "name", "How Does An App Get This Awesome",
+            "messages", List.of(message1, message2)
+        );
+
+        Map<String, Object> map = Map.of("application", application);
+
+        Map<String, String> result = MapUtils.flattenMapProperties(map, true);
+
+        assertAll("Assert that we can handle lists of maps with list items.",
             () -> assertEquals(5, result.size()),
-            () -> assertEquals("How Does An App Get This Awesome", result.get("application.name"))
+            () -> assertEquals("How Does An App Get This Awesome", result.get("application.name")),
+            () -> assertEquals("one", result.get("application.messages[0].source")),
+            () -> assertEquals("two", result.get("application.messages[0].target")),
+            () -> assertEquals("three", result.get("application.messages[1].source")),
+            () -> assertEquals("four", result.get("application.messages[1].target"))
         );
     }
 }

@@ -19,7 +19,11 @@ package org.elypia.yaml4deltaspike;
 import java.util.*;
 
 /**
+ * Utility to flatten nested maps into a single level
+ * key:value pair set of properties.
+ *
  * @author seth@elypia.org (Seth Falco)
+ * @since 1.0.0
  */
 public final class MapUtils {
 
@@ -28,34 +32,44 @@ public final class MapUtils {
     }
 
     public static <V> Map<String, String> flattenMapProperties(final Map<String, V> input) {
-        Map<String, String> result = new HashMap<>();
-        flattenMapProperties(input, result, "");
+        return flattenMapProperties(input, false);
+    }
+
+    public static <V> Map<String, String> flattenMapProperties(final Map<String, V> input, final boolean indexed) {
+        final Map<String, String> result = new HashMap<>();
+        flattenMapProperties(input, result, indexed);
         return result;
     }
 
-    private static void flattenMapProperties(final Map<?, ?> input, final Map<String, String> output, final String prefix) {
+    private static <V> void flattenMapProperties(final Map<String, V> input, final Map<String, String> output, final boolean indexed) {
+        flattenMapProperties(input, output, indexed, null);
+    }
+
+    private static <V> void flattenMapProperties(final Map<String, V> input, final Map<String, String> output, final boolean indexed, final String prefix) {
         input.forEach((key, value) -> {
-            final String k = (prefix.isEmpty() ? prefix : (prefix + '.')) + key;
+            final String k = (prefix == null) ? key : (prefix + '.' + key);
 
-            if (value instanceof Map) {
-                flattenMapProperties((Map)value, output, k);
-            } else if (value instanceof Iterable) {
-                final StringBuilder builder = new StringBuilder();
-
-                for (final Object o : (Iterable)value) {
-                    if (o instanceof Map)
-                        flattenMapProperties((Map)o, output, k);
-                    else
-                        builder.append(o).append(',');
-                }
-
-                if (builder.length() > 0)
-                    builder.setLength(builder.length() - 1);
-
-                output.put(k, builder.toString());
-            } else {
-                output.put(k, value.toString());
-            }
+            if (value instanceof Map)
+                flattenMapProperties((Map)value, output, indexed, k);
+            else if (value instanceof Iterable)
+                addIterable(value, k, output, indexed);
+            else
+                output.put(k, (output.containsKey(k)) ? output.get(k) + "," + value : value.toString());
         });
+    }
+
+    private static <V> void addIterable(final V value, final String key, final Map<String, String> output, final boolean indexed) {
+        final StringJoiner joiner = new StringJoiner(",");
+        int index = 0;
+
+        for (final Object o : (Iterable)value) {
+            if (o instanceof Map)
+                flattenMapProperties((Map)o, output, indexed, (indexed) ? key + "[" + index++ + "]" : key);
+            else
+                joiner.add(o.toString());
+        }
+
+        if (joiner.length() > 0)
+            output.put(key, joiner.toString());
     }
 }
