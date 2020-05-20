@@ -21,9 +21,44 @@ If you want a custom file name, or load order, you can extend and override the
 public class CustomYamlConfigSource extends YamlConfigSource {
     
     public CustomYamlConfigSource() {
-        super("custom_application.yml");
+        super("custom_application.yml", false);
     }
 }
+```
+
+### Examples
+There are two modes for the `YamlConfigSource`, non-indexed (default) and indexed.
+We'll discuss them both using the following YAML as an example.
+
+```yaml
+application:
+  name: YAML4DeltaSpike
+  messages:
+    - source: source0
+      target: target0
+    - source: source1
+      target: target1
+```
+
+#### Non-Indexed (Default)
+The non-indexed mode will convert the array of nested objects to a series of lists.
+
+```properties
+application.name=YAML4DeltaSpike
+application.messages.source=source0,source1
+application.messages.target=target0,target1
+```
+
+#### Indexed
+The non-indexed mode will convert the array of nested objects to the property key
+but with an index added, similarly to that of an array.
+
+```properties
+application.name=YAML4DeltaSpike
+application.messages[0].source=source0
+application.messages[0].target=target0
+application.messages[1].source=source1
+application.messages[1].target=target1
 ```
 
 ## Open-Source

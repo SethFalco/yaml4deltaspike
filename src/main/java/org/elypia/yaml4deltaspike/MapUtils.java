@@ -52,17 +52,17 @@ public final class MapUtils {
             if (value instanceof Map)
                 flattenMapProperties((Map)value, output, indexed, k);
             else if (value instanceof Iterable)
-                addIterable(value, k, output, indexed);
+                addIterable((Iterable)value, k, output, indexed);
             else
                 output.put(k, (output.containsKey(k)) ? output.get(k) + "," + value : value.toString());
         });
     }
 
-    private static <V> void addIterable(final V value, final String key, final Map<String, String> output, final boolean indexed) {
+    private static <V> void addIterable(final Iterable<V> value, final String key, final Map<String, String> output, final boolean indexed) {
         final StringJoiner joiner = new StringJoiner(",");
         int index = 0;
 
-        for (final Object o : (Iterable)value) {
+        for (final Object o : value) {
             if (o instanceof Map)
                 flattenMapProperties((Map)o, output, indexed, (indexed) ? key + "[" + index++ + "]" : key);
             else

@@ -48,11 +48,11 @@ public class YamlConfigSource extends MapConfigSource {
 
     /** Construct the {@link YamlConfigSource} with {@link #DEFAULT_CONFIG_NAME}. */
     public YamlConfigSource() {
-        this(DEFAULT_CONFIG_NAME);
+        this(DEFAULT_CONFIG_NAME, false);
     }
 
-    public YamlConfigSource(String configName) {
-        super(MapUtils.flattenMapProperties(new Yaml().load(YamlConfigSource.class.getClassLoader().getResourceAsStream(configName))));
+    public YamlConfigSource(String configName, boolean indexed) {
+        super(MapUtils.flattenMapProperties(new Yaml().load(YamlConfigSource.class.getClassLoader().getResourceAsStream(configName)), indexed));
         this.configName = configName;
     }
 
