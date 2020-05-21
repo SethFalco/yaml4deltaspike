@@ -1,7 +1,7 @@
 # YAML4DeltaSpike [![Matrix]][matrix-community] [![Discord]][discord-guild] [![Bintray]][bintray-page] [![Docs]][documentation] [![Build]][gitlab] [![Coverage]][gitlab] [![Donate]][elypia-donate]
 ## About
 This project, as the name entails, provides YAML configuration support for the DeltaSpike
-configuration resolver and uses [snakeyaml] to binds the properties to an implementation
+configuration mechanism and uses [snakeyaml] to binds the properties to an implementation
 of the MapConfigSource.
 
 This is an incredibly small project, so it will rarely receive updates due to the small
