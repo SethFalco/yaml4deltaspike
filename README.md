@@ -1,4 +1,6 @@
 # YAML4DeltaSpike [![Matrix]][matrix-community] [![Discord]][discord-guild] [![Maven Central]][maven-page] [![Docs]][documentation] [![Build]][gitlab] [![Coverage]][gitlab] [![Donate]][elypia-donate]
+The [Gradle]/[Maven] import strings can be found at the maven-central badge above!
+
 ## About
 This project, as the name entails, provides YAML configuration support for the DeltaSpike
 configuration mechanism and uses [snakeyaml] to binds the properties to an implementation
@@ -9,7 +11,7 @@ scope and code surface.
 
 ## Usage
 The configuration should work out of the box once you've depended on it via Gradle or Maven;
-the implementation strings can be found on the bintray badge above.
+the implementation strings can be found on the maven-central badge above.
 
 It will automatically look for an `application.yml` on the root of the classpath
 and load it without any additional configuration.
@@ -73,6 +75,8 @@ use or derive work from this source code!
 [documentation]: https://elypia.gitlab.io/yaml4deltaspike "Project Documentation"
 [gitlab]: https://gitlab.com/Elypia/yaml4deltaspike/commits/master "Repository on GitLab"
 [elypia-donate]: https://elypia.org/donate "Donate to Elypia"
+[Gradle]: https://gradle.org/ "Depend via Gradle"
+[Maven]: https://maven.apache.org/ "Depend via Maven"
 [snakeyaml]: https://bitbucket.org/asomov/snakeyaml/src/master/ "SnakeYAML on BitBucket"
 [DeltaSpike documentation]: https://deltaspike.apache.org/documentation/configuration.html#ProvidingconfigurationusingConfigSources "DeltaSpike Documentation"
 [Apache 2.0]: https://www.apache.org/licenses/LICENSE-2.0 "Apache 2.0 License"
