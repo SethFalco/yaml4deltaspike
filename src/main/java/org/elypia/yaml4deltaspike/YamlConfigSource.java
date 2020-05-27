@@ -17,7 +17,9 @@
 package org.elypia.yaml4deltaspike;
 
 import org.apache.deltaspike.core.impl.config.MapConfigSource;
-import org.yaml.snakeyaml.Yaml;
+
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * You can create a configuration with a certain name by just
@@ -41,23 +43,96 @@ import org.yaml.snakeyaml.Yaml;
 public class YamlConfigSource extends MapConfigSource {
 
     /** The default configuration name, this is already available to use if this is on your classpath. */
-    private static final String DEFAULT_CONFIG_NAME = "application.yml";
+    private static final String DEFAULT_FILE_PATH = "application.yml";
 
-    /** The configuration file name that the {@link YamlConfigSource} is for. */
+    /** The configuration file/stream name that the {@link YamlConfigSource} is for. */
     private final String configName;
 
-    /** Construct the {@link YamlConfigSource} with {@link #DEFAULT_CONFIG_NAME}. */
+    /**
+     * If indexed is true, when we get arrays of objects such as:
+     * <pre><code>
+     * messages:
+     *   - source: one
+     *     target: two
+     *   - source: three
+     *     target: four
+     * </code></pre>
+     *
+     * It will return:
+     * <pre><code>
+     * messages[0].source=one
+     * messages[0].target=two
+     * messages[1].source=three
+     * messages[2].target=four
+     * </code></pre>
+     *
+     * While if this is false (default), it would return:
+     * <pre><code>
+     * messages.source=one,three
+     * messages.target=two,four
+     * </code></pre>
+     */
+    private final boolean indexed;
+
+    /** Construct the {@link YamlConfigSource} with {@link #DEFAULT_FILE_PATH}. */
     public YamlConfigSource() {
-        this(DEFAULT_CONFIG_NAME, false);
+        this(DEFAULT_FILE_PATH);
     }
 
-    public YamlConfigSource(String configName, boolean indexed) {
-        super(MapUtils.flattenMapProperties(new Yaml().load(YamlConfigSource.class.getClassLoader().getResourceAsStream(configName)), indexed));
-        this.configName = configName;
+    /**
+     * @param configPath The file path relative to the classpath of the configuration.
+     * @throws NullPointerException If configPath is null.
+     */
+    public YamlConfigSource(String configPath) {
+        this(configPath, false);
+    }
+
+    /**
+     * @param configPath The file relative to the classpath of the configuration.
+     * @param indexed If this configuration should used indexed keys, or lists.
+     * @throws NullPointerException If configPath is null.
+     */
+    public YamlConfigSource(String configPath, boolean indexed) {
+        this(new YamlStringFunction().apply(configPath), configPath, indexed);
+    }
+
+    /**
+     * @param inputStream The input stream to read the configuration from.
+     */
+    public YamlConfigSource(InputStream inputStream) {
+        this(inputStream, false);
+    }
+
+    /**
+     * @param inputStream The input stream to read the configuration from.
+     * @param indexed If this configuration should used indexed keys, or lists.
+     */
+    public YamlConfigSource(InputStream inputStream, boolean indexed) {
+        this(inputStream, "input-stream", indexed);
+    }
+
+    /**
+     * @param inputStream The input stream to read the configuration from.
+     * @param configName The file path relative to the classpath of the configuration.
+     * @param indexed If this configuration should used indexed keys, or lists.
+     * @throws NullPointerException If configName is null.
+     */
+    public YamlConfigSource(InputStream inputStream, String configName, boolean indexed) {
+        this(new YamlInputStreamFunction().apply(inputStream), configName, indexed);
+    }
+
+    private YamlConfigSource(Map<String, String> map, String configName, boolean indexed) {
+        super(MapUtils.flattenMapProperties(map, indexed));
+        this.configName = Objects.requireNonNull(configName);
+        this.indexed = indexed;
     }
 
     @Override
     public String getConfigName() {
-        return "yaml-file " + configName;
+        return "yaml " + configName;
+    }
+
+    public boolean isIndexed() {
+        return indexed;
     }
 }
