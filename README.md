@@ -6,12 +6,8 @@ This project, as the name entails, provides YAML configuration support for the D
 configuration mechanism and uses [snakeyaml] to binds the properties to an implementation
 of the MapConfigSource.
 
-This is an incredibly small project, so it will rarely receive updates due to the small
-scope and code surface.
-
 ## Usage
-The configuration should work out of the box once you've depended on it via Gradle or Maven;
-the implementation strings can be found on the maven-central badge above.
+The configuration should work out of the box once you've depended on it via Gradle or Maven
 
 It will automatically look for an `application.yml` on the root of the classpath
 and load it without any additional configuration.
