@@ -197,4 +197,25 @@ public class MapUtilsTest {
             () -> assertEquals("four", result.get("application.messages[1].target"))
         );
     }
+
+    /**
+     * application:
+     *   name: Another Amazing App
+     *   prefixes:
+     */
+    @Test
+    public void testWithNull() {
+        Map<String, Object> application = new HashMap<>();
+        application.put("name", "Yet Another Amazing App");
+        application.put("prefixes", null);
+
+        Map<String, Object> map = Map.of("application", application);
+
+        Map<String, String> result = MapUtils.flattenMapProperties(map);
+
+        assertAll("Assert that we can handle lists or array correctly.",
+            () -> assertEquals(1, result.size()),
+            () -> assertEquals("Yet Another Amazing App", result.get("application.name"))
+        );
+    }
 }

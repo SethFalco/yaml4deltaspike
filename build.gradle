@@ -29,11 +29,11 @@ ext {
     issueUrl = "${repoUrl}/issues"
     website = "https://elypia.org/"
 
-    deltaSpikeVersion = "1.9.3"
+    deltaSpikeVersion = "1.9.4"
 }
 
 group = "org.elypia.yaml4deltaspike"
-version = "1.2.0"
+version = "1.2.1"
 description = "YAML configuration source for the DeltaSpike configuration mechanism."
 
 sourceCompatibility = 11

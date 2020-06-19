@@ -47,6 +47,9 @@ public final class MapUtils {
 
     private static <V> void flattenMapProperties(final Map<String, V> input, final Map<String, String> output, final boolean indexed, final String prefix) {
         input.forEach((key, value) -> {
+            if (value == null)
+                return;
+
             final String k = (prefix == null) ? key : (prefix + '.' + key);
 
             if (value instanceof Map)
