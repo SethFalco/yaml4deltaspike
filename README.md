@@ -78,7 +78,7 @@ use or derive work from this source code!
 [Apache 2.0]: https://www.apache.org/licenses/LICENSE-2.0 "Apache 2.0 License"
 [TL;DR]: https://tldrlegal.com/license/apache-license-2.0-(apache-2.0) "TL;DR of Apache 2.0"
 
-[Matrix]: https://img.shields.io/matrix/elypia-general:matrix.org?logo=matrix "Matrix Shield"
+[Matrix]: https://img.shields.io/matrix/elypia:matrix.org?logo=matrix "Matrix Shield"
 [Discord]: https://discord.com/api/guilds/184657525990359041/widget.png "Discord Shield"
 [Maven Central]: https://img.shields.io/maven-central/v/org.elypia.yaml4deltaspike/yaml4deltaspike "Download Shield"
 [Docs]: https://img.shields.io/badge/docs-yaml4deltaspike-blue.svg "Documentation Shield"
