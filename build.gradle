@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2020 Elypia CIC
+ * Copyright 2020-2020 Elypia CIC and Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 plugins {
     id "idea"
     id "java-library"
-    id "maven"
     id "maven-publish"
     id "jacoco"
     id "com.jfrog.bintray" version "1.8.5"
@@ -33,7 +32,7 @@ ext {
 }
 
 group = "org.elypia.yaml4deltaspike"
-version = "1.2.1"
+version = "1.3.0"
 description = "YAML configuration source for the DeltaSpike configuration mechanism."
 
 sourceCompatibility = 11
@@ -87,7 +86,7 @@ jacoco {
 jar {
     manifest {
         attributes "Implementation-Title": this.name + project.path.replace(':', '-'),
-                   "Implementation-Version": version
+                   "Implementation-Version": archiveVersion
     }
 }
 

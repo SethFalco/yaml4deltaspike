@@ -3,11 +3,11 @@ The [Gradle]/[Maven] import strings can be found at the maven-central badge abov
 
 ## About
 This project, as the name entails, provides YAML configuration support for the DeltaSpike
-configuration mechanism and uses [snakeyaml] to binds the properties to an implementation
-of the MapConfigSource.
+configuration mechanism and uses [snakeyaml] to bind the properties to an implementation
+of the `MapConfigSource`.
 
 ## Usage
-The configuration should work out of the box once you've depended on it via Gradle or Maven
+The configuration should work out of the box once you've depended on it via Gradle or Maven.
 
 It will automatically look for an `application.yml` on the root of the classpath
 and load it without any additional configuration.

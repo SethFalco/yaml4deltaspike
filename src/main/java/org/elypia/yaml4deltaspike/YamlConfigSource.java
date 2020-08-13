@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2020 Elypia CIC
+ * Copyright 2020-2020 Elypia CIC and Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,14 +26,12 @@ import java.util.*;
  * extending this class, calling super() with the new configuration
  * name you want.
  *
- * <code>
- *     public class CustomYamlConfigSource extends YamlConfigSource {
+ * <pre><code>public class CustomYamlConfigSource extends YamlConfigSource {
  *
- *         public CustomYamlConfigSource() {
- *             super("custom_application.yml");
- *         }
+ *     public CustomYamlConfigSource() {
+ *         super("custom_application.yml");
  *     }
- * </code>
+ * }</code></pre>
  *
  * This will seek out my_application.yml, instead of application.yml.
  *
@@ -49,28 +47,7 @@ public class YamlConfigSource extends MapConfigSource {
     private final String configName;
 
     /**
-     * If indexed is true, when we get arrays of objects such as:
-     * <pre><code>
-     * messages:
-     *   - source: one
-     *     target: two
-     *   - source: three
-     *     target: four
-     * </code></pre>
-     *
-     * It will return:
-     * <pre><code>
-     * messages[0].source=one
-     * messages[0].target=two
-     * messages[1].source=three
-     * messages[2].target=four
-     * </code></pre>
-     *
-     * While if this is false (default), it would return:
-     * <pre><code>
-     * messages.source=one,three
-     * messages.target=two,four
-     * </code></pre>
+     * @see #isIndexed()
      */
     private final boolean indexed;
 
@@ -80,8 +57,12 @@ public class YamlConfigSource extends MapConfigSource {
     }
 
     /**
+     * Calls {@link #YamlConfigSource(String, boolean)} with the parameter <code>indexed</code>
+     * as false.
+     *
      * @param configPath The file path relative to the classpath of the configuration.
      * @throws NullPointerException If configPath is null.
+     * @see #YamlConfigSource(String, boolean)
      */
     public YamlConfigSource(String configPath) {
         this(configPath, false);
@@ -121,7 +102,12 @@ public class YamlConfigSource extends MapConfigSource {
         this(new YamlInputStreamFunction().apply(inputStream), configName, indexed);
     }
 
-    private YamlConfigSource(Map<String, String> map, String configName, boolean indexed) {
+    /**
+     * @param map A {@link Map}, which may include nested {@link Map}s, of configuration properties.
+     * @param configName The file path relative to the classpath of the configuration.
+     * @param indexed If this configuration should used indexed keys, or lists.
+     */
+    private YamlConfigSource(Map<String, Object> map, String configName, boolean indexed) {
         super(MapUtils.flattenMapProperties(map, indexed));
         this.configName = Objects.requireNonNull(configName);
         this.indexed = indexed;
@@ -132,6 +118,30 @@ public class YamlConfigSource extends MapConfigSource {
         return "yaml " + configName;
     }
 
+    /**
+     * If indexed is true, when we get arrays of objects such as:
+     * <pre><code>
+     * messages:
+     *   - source: one
+     *     target: two
+     *   - source: three
+     *     target: four</code></pre>
+     *
+     * It will return:
+     * <pre><code>
+     * messages[0].source=one
+     * messages[0].target=two
+     * messages[1].source=three
+     * messages[2].target=four</code></pre>
+     *
+     * While if this is false (default), it would return:
+     * <pre><code>
+     * messages.source=one,three
+     * messages.target=two,four</code></pre>
+     *
+     * @return If this {@link org.apache.deltaspike.core.spi.config.ConfigSource} uses
+     * indexed arrays, or comma seperated values.
+     */
     public boolean isIndexed() {
         return indexed;
     }
