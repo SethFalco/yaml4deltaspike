@@ -31,7 +31,7 @@ public class MapUtilsTest {
      * application:
      *   name: Amazing Application
      * database:
-     *   host: localhost
+     *   host: 127.0.0.1
      *   username: seth
      *   password: notseth
      */
