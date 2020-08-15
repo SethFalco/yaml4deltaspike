@@ -52,24 +52,23 @@ public final class MapUtils {
     /**
      * <p>Converts a {@link Map} of objects to a flattened {@link Map} of {@link String} values.</p>
      *
-     * <p>
      * For example, with the given input:
      *
      * <pre><code>
-     * Map&lt;String, Object> application = Map.of(
+     * Map&lt;String, Object&gt; application = Map.of(
      *     "name", "My App",
-     *     "prefixes", List.of(">", "$")
+     *     "prefixes", List.of("&gt;", "$")
      * );
      *
-     * Map&lt;String, Object> map = Map.of("application", application);
+     * Map&lt;String, Object&gt; map = Map.of("application", application);
      *
-     * Map&lt;String, String> result = MapUtils.flattenMapProperties(map);</code></pre>
+     * Map&lt;String, String&gt; result = MapUtils.flattenMapProperties(map);</code></pre>
      *
      * Will result in the following properties, assuming <code>indexed</code> is <code>false</code>:
      *
      * <pre><code>
      * application.name=My App
-     * application.prefixes=>,$</code></pre>
+     * application.prefixes=&gt;,$</code></pre>
      *
      * If <code>indexed</code> is <code>true</code>, the result would be:
      *
@@ -77,7 +76,6 @@ public final class MapUtils {
      * application.name=My App
      * application.prefixes[0]=>
      * application.prefixes[1]=$</code></pre>
-     * </p>
      *
      * @param input A {@link Map} of properties that may contain nested {@link Map}s as values.
      * @param indexed If arrays should be converted to a multiple indexed properties, appended with [i], or a
