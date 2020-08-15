@@ -74,7 +74,7 @@ public final class MapUtils {
      *
      * <pre><code>
      * application.name=My App
-     * application.prefixes[0]=>
+     * application.prefixes[0]=&gt;
      * application.prefixes[1]=$</code></pre>
      *
      * @param input A {@link Map} of properties that may contain nested {@link Map}s as values.
