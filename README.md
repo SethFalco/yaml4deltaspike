@@ -1,10 +1,15 @@
-# YAML4DeltaSpike [![Matrix]][matrix-community] [![Discord]][discord-guild] [![Maven Central]][maven-page] [![Docs]][documentation] [![Build]][gitlab] [![Coverage]][gitlab] [![Donate]][elypia-donate]
-The [Gradle]/[Maven] import strings can be found at the maven-central badge above!
+<div align="center">
+
+# YAML4DeltaSpike
+[![Matrix]][matrix-community] [![Discord]][discord-guild] [![Maven Central]][maven-page] [![Docs]][documentation] [![Build]][gitlab] [![Coverage]][gitlab] [![Donate]][elypia-donate]
+</div>
 
 ## About
 This project, as the name entails, provides YAML configuration support for the DeltaSpike
 configuration mechanism and uses [snakeyaml] to bind the properties to an implementation
 of the `MapConfigSource`.
+
+The [Gradle]/[Maven] import strings can be found at the maven-central badge above!
 
 ## Usage
 The configuration should work out of the box once you've depended on it via Gradle or Maven.
