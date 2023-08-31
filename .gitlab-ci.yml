@@ -1,4 +1,4 @@
-image: gradle:6.5.0-jdk11
+image: gradle:8.3-jdk11
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
@@ -20,23 +20,3 @@ test:
   script:
     - gradle --build-cache --full-stacktrace check
     - cat build/reports/jacoco/test/html/index.html
-
-bintray:
-  only:
-    - tags
-  stage: deploy
-  script: gradle bintrayUpload
-
-pages:
-  only:
-    - tags
-  stage: deploy
-  script:
-    - mv build/docs/javadoc public
-  artifacts:
-    paths:
-      - public
-  cache:
-    policy: pull
-    paths:
-      - build/docs/
