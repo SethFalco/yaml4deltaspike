@@ -20,3 +20,4 @@ test:
   script:
     - gradle --build-cache --full-stacktrace check
     - cat build/reports/jacoco/test/html/index.html
+  coverage: '/Total.*?([0-9]{1,3})%/'
