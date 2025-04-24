@@ -13,21 +13,8 @@ spaces_around_operators = true
 [*.bat]
 end_of_line = crlf
 
-[*.cs]
-curly_bracket_next_line = true
-
-[*.{cpp,cs,gradle,java,kt,php,phtml,py,rs}]
+[*.{gradle,java}]
 indent_size = 4
-
-[*.go]
-indent_style = tab
-indent_size = 4
-
-[*.{js,ts}]
-quote_type = single
 
 [*.{markdown,md}]
 trim_trailing_whitespace = false
-
-[*.tsv]
-indent_style = tab
