@@ -143,7 +143,6 @@ fabric.properties
 
 # Project
 # Configuration
-/config/**
 *.p12
 *.jks
 *.key

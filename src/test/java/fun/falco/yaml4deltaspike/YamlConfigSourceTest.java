@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2023 Elypia and Contributors
+ * Copyright 2020-2025 Seth Falco and YAML4DeltaSpike Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,32 @@
  * limitations under the License.
  */
 
-package org.elypia.yaml4deltaspike;
+package fun.falco.yaml4deltaspike;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * @author seth@elypia.org (Seth Falco)
+ * @author seth@falco.fun (Seth Falco)
  */
 public class YamlConfigSourceTest {
 
     /**
-     * YAML4DeltaSpike already looks for a certain file by default.
-     * This file is not provided by the library however.
+     * YAML4DeltaSpike already looks for a certain file by default. This file is
+     * not provided by the library however.
      *
-     * It should <strong>not</strong> throw an error in the case this
-     * file does not exist.
+     * <p>It should <strong>not</strong> throw an error in the case this file
+     * does not exist.</p>
      */
     @Test
     public void exceptionNotThrownOnDefaultConfiguration() {
@@ -42,9 +48,7 @@ public class YamlConfigSourceTest {
 
     @Test
     public void testThatInputStreamWorks() throws IOException {
-        String yaml =
-            "application:\n"    +
-            "  name: Testing";
+        String yaml = "application:\n  name: Testing";
 
         try (InputStream stream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8))) {
             YamlConfigSource config = new YamlConfigSource(stream);
@@ -59,9 +63,7 @@ public class YamlConfigSourceTest {
 
     @Test
     public void testInputStreamWithCustomName() throws IOException {
-        String yaml =
-            "application:\n"    +
-            "  name: Testing";
+        String yaml = "application:\n  name: Testing";
 
         try (InputStream stream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8))) {
             YamlConfigSource config = new YamlConfigSource(stream, "custom-stream", true);
@@ -76,6 +78,6 @@ public class YamlConfigSourceTest {
 
     @Test
     public void testWithNullInputStream() {
-        assertDoesNotThrow(() -> new YamlConfigSource((InputStream)null));
+        assertDoesNotThrow(() -> new YamlConfigSource((InputStream) null));
     }
 }
