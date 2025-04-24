@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2023 Elypia and Contributors
+ * Copyright 2020-2025 Seth Falco and YAML4DeltaSpike Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,33 @@
  * limitations under the License.
  */
 
-package org.elypia.yaml4deltaspike;
+package fun.falco.yaml4deltaspike;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * @author seth@elypia.org (Seth Falco)
+ * @author seth@falco.fun (Seth Falco)
  */
 public class MapUtilsTest {
 
     /**
+     * Test that we flatten map keys correctly.
+     *
+     * <pre><code>
      * application:
      *   name: Amazing Application
      * database:
      *   host: 127.0.0.1
      *   username: seth
      *   password: notseth
+     * </code></pre>
      */
     @Test
     public void testFlattenMap() {
@@ -62,12 +69,16 @@ public class MapUtilsTest {
     }
 
     /**
+     * Test that we flatten nested map keys correctly.
+     *
+     * <pre><code>
      * application:
      *   name: Another Amazing App
      *   database:
      *     host: localhost
      *     username: seth
      *     password: password
+     * </code></pre>
      */
     @Test
     public void testFlattenNestedMap() {
@@ -83,7 +94,6 @@ public class MapUtilsTest {
         );
 
         Map<String, Object> map = Map.of("application", application);
-
         Map<String, String> result = MapUtils.flattenMapProperties(map);
 
         assertAll("Assert that we can handle nested maps correctly.",
@@ -96,11 +106,15 @@ public class MapUtilsTest {
     }
 
     /**
+     * Test that we flatten nested map keys with lists correctly.
+     *
+     * <pre><code>
      * application:
      *   name: Another Amazing App
      *   prefixes:
      *     - >
      *     - $
+     * </code></pre>
      */
     @Test
     public void testFlattenWithList() {
@@ -110,7 +124,6 @@ public class MapUtilsTest {
         );
 
         Map<String, Object> map = Map.of("application", application);
-
         Map<String, String> result = MapUtils.flattenMapProperties(map);
 
         assertAll("Assert that we can handle lists or array correctly.",
@@ -121,6 +134,9 @@ public class MapUtilsTest {
     }
 
     /**
+     * Test that we flatten nested map keys with lists of objects correctly.
+     *
+     * <pre><code>
      * application:
      *   name: How Does An App Get This Awesome
      *   messages:
@@ -128,6 +144,7 @@ public class MapUtilsTest {
      *       target: two
      *     - source: three
      *       target: four
+     * </code></pre>
      */
     @Test
     public void testFlattenWithObjectArrayLists() {
@@ -147,7 +164,6 @@ public class MapUtilsTest {
         );
 
         Map<String, Object> map = Map.of("application", application);
-
         Map<String, String> result = MapUtils.flattenMapProperties(map);
 
         assertAll("Assert that we can handle lists of maps with list items.",
@@ -159,6 +175,10 @@ public class MapUtilsTest {
     }
 
     /**
+     * Test that we flatten nested map keys with lists of objects correctly
+     * where indexed is true.
+     *
+     * <pre><code>
      * application:
      *   name: How Does An App Get This Awesome
      *   messages:
@@ -166,6 +186,7 @@ public class MapUtilsTest {
      *       target: two
      *     - source: three
      *       target: four
+     * </code></pre>
      */
     @Test
     public void testFlattenWithObjectArrayIndexed() {
@@ -185,7 +206,6 @@ public class MapUtilsTest {
         );
 
         Map<String, Object> map = Map.of("application", application);
-
         Map<String, String> result = MapUtils.flattenMapProperties(map, true);
 
         assertAll("Assert that we can handle lists of maps with list items.",
@@ -199,9 +219,13 @@ public class MapUtilsTest {
     }
 
     /**
+     * Ensure we don't crash if a property is null.
+     *
+     * <pre><code>
      * application:
      *   name: Another Amazing App
      *   prefixes:
+     * </code></pre>
      */
     @Test
     public void testWithNull() {
@@ -210,7 +234,6 @@ public class MapUtilsTest {
         application.put("prefixes", null);
 
         Map<String, Object> map = Map.of("application", application);
-
         Map<String, String> result = MapUtils.flattenMapProperties(map);
 
         assertAll("Assert that we can handle lists or array correctly.",

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2023 Elypia and Contributors
+ * Copyright 2020-2025 Seth Falco and YAML4DeltaSpike Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,36 +14,42 @@
  * limitations under the License.
  */
 
-package org.elypia.yaml4deltaspike;
+package fun.falco.yaml4deltaspike;
+
+import java.io.InputStream;
+import java.util.Map;
+import java.util.Objects;
 
 import org.apache.deltaspike.core.impl.config.MapConfigSource;
 
-import java.io.InputStream;
-import java.util.*;
-
 /**
- * You can create a configuration with a certain name by just
- * extending this class, calling super() with the new configuration
- * name you want.
+ * You can create a configuration with a certain name by just extending this
+ * class, calling super() with the new configuration name you want.
  *
  * <pre><code>public class CustomYamlConfigSource extends YamlConfigSource {
  *
  *     public CustomYamlConfigSource() {
  *         super("custom_application.yml");
  *     }
- * }</code></pre>
+ * }
+ * </code></pre>
  *
- * This will seek out my_application.yml, instead of application.yml.
+ * <p>This will seek out my_application.yml, instead of application.yml.</p>
  *
- * @author seth@elypia.org (Seth Falco)
+ * @author seth@falco.fun (Seth Falco)
  * @since 1.0.0
  */
 public class YamlConfigSource extends MapConfigSource {
 
-    /** The default configuration name, this is already available to use if this is on your classpath. */
+    /**
+     * Default configuration name, this is already available to use if this is
+     * on your classpath.
+     */
     private static final String DEFAULT_FILE_PATH = "application.yml";
 
-    /** The configuration file/stream name that the {@link YamlConfigSource} is for. */
+    /**
+     * Configuration file/stream name that the {@link YamlConfigSource} is for.
+     */
     private final String configName;
 
     /**
@@ -51,16 +57,19 @@ public class YamlConfigSource extends MapConfigSource {
      */
     private final boolean indexed;
 
-    /** Construct the {@link YamlConfigSource} with {@link #DEFAULT_FILE_PATH}. */
+    /**
+     * Construct the {@link YamlConfigSource} with {@link #DEFAULT_FILE_PATH}.
+     */
     public YamlConfigSource() {
         this(DEFAULT_FILE_PATH);
     }
 
     /**
-     * Calls {@link #YamlConfigSource(String, boolean)} with the parameter <code>indexed</code>
-     * as false.
+     * Calls {@link #YamlConfigSource(String, boolean)} with the parameter
+     * <code>indexed</code> as false.
      *
-     * @param configPath The file path relative to the classpath of the configuration.
+     * @param configPath
+     *     File path relative to the classpath of the configuration.
      * @throws NullPointerException If configPath is null.
      * @see #YamlConfigSource(String, boolean)
      */
@@ -69,7 +78,7 @@ public class YamlConfigSource extends MapConfigSource {
     }
 
     /**
-     * @param configPath The file relative to the classpath of the configuration.
+     * @param configPath File relative to the classpath of the configuration.
      * @param indexed If this configuration should used indexed keys, or lists.
      * @throws NullPointerException If configPath is null.
      */
@@ -78,14 +87,14 @@ public class YamlConfigSource extends MapConfigSource {
     }
 
     /**
-     * @param inputStream The input stream to read the configuration from.
+     * @param inputStream Input stream to read the configuration from.
      */
     public YamlConfigSource(InputStream inputStream) {
         this(inputStream, false);
     }
 
     /**
-     * @param inputStream The input stream to read the configuration from.
+     * @param inputStream Input stream to read the configuration from.
      * @param indexed If this configuration should used indexed keys, or lists.
      */
     public YamlConfigSource(InputStream inputStream, boolean indexed) {
@@ -93,8 +102,9 @@ public class YamlConfigSource extends MapConfigSource {
     }
 
     /**
-     * @param inputStream The input stream to read the configuration from.
-     * @param configName The file path relative to the classpath of the configuration.
+     * @param inputStream Input stream to read the configuration from.
+     * @param configName
+     *     File path relative to the classpath of the configuration.
      * @param indexed If this configuration should used indexed keys, or lists.
      * @throws NullPointerException If configName is null.
      */
@@ -103,8 +113,11 @@ public class YamlConfigSource extends MapConfigSource {
     }
 
     /**
-     * @param map A {@link Map}, which may include nested {@link Map}s, of configuration properties.
-     * @param configName The file path relative to the classpath of the configuration.
+     * @param map
+     *     {@link Map}, which may include nested {@link Map}s, of configuration
+     *     properties.
+     * @param configName
+     *     File path relative to the classpath of the configuration.
      * @param indexed If this configuration should used indexed keys, or lists.
      */
     private YamlConfigSource(Map<String, Object> map, String configName, boolean indexed) {
@@ -119,28 +132,39 @@ public class YamlConfigSource extends MapConfigSource {
     }
 
     /**
-     * If indexed is true, when we get arrays of objects such as:
+     * If to return indexed key/value pairs, or a single key/value pair with
+     * comma separated values.
+     *
+     * <p>If <code>indexed</code> is true, when we get arrays of objects such
+     * as:</p>
+     *
      * <pre><code>
      * messages:
      *   - source: one
      *     target: two
      *   - source: three
-     *     target: four</code></pre>
+     *     target: four
+     * </code></pre>
      *
-     * It will return:
+     * <p>It will return:</p>
+     *
      * <pre><code>
      * messages[0].source=one
      * messages[0].target=two
      * messages[1].source=three
-     * messages[2].target=four</code></pre>
+     * messages[2].target=four
+     * </code></pre>
      *
-     * While if this is false (default), it would return:
+     * <p>While if <code>indexed</code> is false (default), it would return:</p>
+     *
      * <pre><code>
      * messages.source=one,three
-     * messages.target=two,four</code></pre>
+     * messages.target=two,four
+     * </code></pre>
      *
-     * @return If this {@link org.apache.deltaspike.core.spi.config.ConfigSource} uses
-     * indexed arrays, or comma seperated values.
+     * @return
+     *     If this {@link org.apache.deltaspike.core.spi.config.ConfigSource}
+     *     uses indexed arrays, or comma separated values.
      */
     public boolean isIndexed() {
         return indexed;
